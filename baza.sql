@@ -49,31 +49,17 @@ CREATE TABLE `prijava` (
   PRIMARY KEY (`PrijavaID`),
   KEY `KorisnikID` (`StanovnikID`),
   CONSTRAINT `prijava_ibfk_1` FOREIGN KEY (`StanovnikID`) REFERENCES `stanovnik` (`StanovnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `prijava` */
 
 insert  into `prijava`(`PrijavaID`,`DatumUlaska`,`DatumIzlaska`,`NacinPutovanja`,`StanovnikID`) values 
 (1,'2001-01-20','2001-02-20','avion',1),
 (2,'2025-05-10','2025-05-20','motocikl',5),
-(3,'2026-02-01','2026-01-01',NULL,3),
 (4,'2025-05-10','2025-05-20','Avio prevoz',5),
-(6,'2025-05-11','2025-05-11',NULL,1),
 (8,'2025-12-21','2025-12-12','Putnicki automobil',5),
-(9,'2025-12-12','2025-12-12','Autobus',1),
-(10,'2025-11-12','2025-11-21',NULL,1),
-(11,'2026-12-12','2026-12-12',NULL,1),
-(12,'2026-05-11','2026-05-11',NULL,5),
-(13,'2025-05-11','2025-05-11',NULL,5),
-(14,'2027-01-01','2027-01-01',NULL,1),
-(15,'2028-01-01','2028-01-01',NULL,1),
-(16,'2028-01-01','2028-02-01',NULL,1),
-(17,'2025-05-11','2025-05-11',NULL,1),
-(18,'2025-05-11','2025-05-11',NULL,2),
-(19,'2026-01-01','2026-01-01',NULL,2),
-(20,'2027-01-01','2027-01-02',NULL,2),
-(21,'2028-01-01','2028-02-01',NULL,2),
-(22,'2026-01-01','2026-01-01',NULL,2);
+(9,'2025-12-12','2025-12-12','Putnicki automobil',1),
+(25,'2027-01-01','2027-02-01','Putnicki automobil',5);
 
 /*Table structure for table `stanovnik` */
 
@@ -117,43 +103,19 @@ CREATE TABLE `stavkaprijave` (
 
 insert  into `stavkaprijave`(`prijavaid`,`zemljaid`) values 
 (1,1),
-(3,1),
 (4,1),
-(6,1),
 (8,1),
-(10,1),
-(11,1),
-(12,1),
-(14,1),
-(15,1),
-(18,1),
-(19,1),
-(20,1),
-(21,1),
+(9,1),
+(25,1),
 (1,2),
-(3,2),
 (8,2),
-(9,2),
-(10,2),
-(16,2),
-(18,2),
-(22,2),
 (1,3),
-(3,3),
 (4,3),
 (8,3),
-(11,3),
-(18,3),
-(20,3),
 (1,4),
 (4,4),
 (2,5),
-(11,5),
-(17,5),
-(2,6),
-(10,7),
-(10,9),
-(13,9);
+(2,6);
 
 /*Table structure for table `zemlja` */
 
