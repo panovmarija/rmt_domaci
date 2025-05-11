@@ -4,9 +4,12 @@
  */
 package model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -34,20 +37,32 @@ public class ModelPrijava extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         WrapPrijava z=l.get(rowIndex);
+        SimpleDateFormat sdf=new SimpleDateFormat("dd.MM.yyyy.");
         switch (columnIndex) {
             case 0:
-                return new SimpleDateFormat("dd.MM.yyyy.").format(z.getP().getDu());
+                return sdf.format(z.getP().getDu());
             case 1:
-                return new SimpleDateFormat("dd.MM.yyyy.").format(z.getP().getDi());
+                return sdf.format(z.getP().getDi());
             case 2:
                 return z.getP().getNp();
             case 3:
                 return z.getZemlje();
             case 4:
-                if(z.getP().getDi().before(new Date()))return "ZAVRSENA";
-                int brs= (int) (z.getP().getDu().getTime()-new Date().getTime())/1000/60/60;
+                Date dnscist=null;
+                Date ducist=null;
+                Date dicist=null;
+                try {
+                    dnscist=sdf.parse(sdf.format(new Date()));
+                    ducist=sdf.parse(sdf.format(z.getP().getDu()));
+                    dicist=sdf.parse(sdf.format(z.getP().getDi()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(ModelPrijava.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(dicist.before(dnscist))return "ZAVRSENA";
+                int brs= (int) (ducist.getTime()-dnscist.getTime())/1000/60/60;
                 if(brs<48 && brs>=0)return "ZAKLJUCANA";
                 return "U OBRADI";
+
             default:
                 throw new AssertionError();
         }

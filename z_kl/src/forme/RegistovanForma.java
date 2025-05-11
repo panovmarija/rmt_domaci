@@ -287,42 +287,13 @@ public class RegistovanForma extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(this, "Prijava mora imati bar jednu zemlju");return ;
         }
+        if(!validacijaDatuma())return ;
         Date du=null, di=null;
         try {
             du=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_du.getText());
             di=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_di.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Los format datuma ulaska i/ili izlaska");return ;
-        }
-        Date d=new Date();
-        SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy.");
-        try {
-            d=format.parse(format.format(d));
-        } catch (ParseException ex) {
-            Logger.getLogger(Izmena.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(du.compareTo(d)<0)
-        {
-            JOptionPane.showMessageDialog(this, "Datuma ulaska ne sme da bude pre danasnjeg");return  ;
-        }
-        if(di.before(du))
-        {
-            JOptionPane.showMessageDialog(this, "Datuma izlaska ne sme da bude pre datuma ulaska");return  ;
-        }
-        Date dicist=null;
-        Date ducist=null;
-         try {
-            ducist=format.parse(format.format(du));
-            dicist=format.parse(format.format(di));
-        } catch (ParseException ex) {
-            Logger.getLogger(PrijavaNeregistrovan.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int brdana=(int) ((dicist.getTime()-ducist.getTime())/1000/60/60/24);
-        if(brdana>90)
-        {
-            JOptionPane.showMessageDialog(this, "Korisnik moze da se zadrzi maksimalno 90 dana na putu");return  ;
-        }
-
+        } catch (Exception e) {}
+        
         Prijava p=new Prijava(-1, s, du, di, null);
         List<Stavka>l=new ArrayList<>();
         List<String>zemlje=new ArrayList<>();
@@ -359,6 +330,7 @@ public class RegistovanForma extends javax.swing.JFrame {
             i.setVisible(true);
             i.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
+        else JOptionPane.showMessageDialog(this, "Moguce je izmeniti samo prijave u obradi!");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public ModelPrijava getMp() {
@@ -390,6 +362,45 @@ public class RegistovanForma extends javax.swing.JFrame {
 
     void osvezi() {
         mp.fireTableDataChanged();
+    }
+
+    private boolean validacijaDatuma() {
+        Date du=null, di=null;
+        try {
+            du=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_du.getText());
+            di=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_di.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Los format datuma ulaska i/ili izlaska");return false ;
+        }
+        Date d=new Date();
+        SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy.");
+        try {
+            d=format.parse(format.format(d));
+        } catch (ParseException ex) {
+            Logger.getLogger(Izmena.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(du.compareTo(d)<0)
+        {
+            JOptionPane.showMessageDialog(this, "Datuma ulaska ne sme da bude pre danasnjeg");return  false;
+        }
+        if(di.before(du))
+        {
+            JOptionPane.showMessageDialog(this, "Datuma izlaska ne sme da bude pre datuma ulaska");return  false;
+        }
+        Date dicist=null;
+        Date ducist=null;
+         try {
+            ducist=format.parse(format.format(du));
+            dicist=format.parse(format.format(di));
+        } catch (ParseException ex) {
+            Logger.getLogger(PrijavaNeregistrovan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int brdana=(int) ((dicist.getTime()-ducist.getTime())/1000/60/60/24);
+        if(brdana>90)
+        {
+            JOptionPane.showMessageDialog(this, "Korisnik moze da se zadrzi maksimalno 90 dana na putu");return  false;
+        }
+        return true;
     }
  
 }

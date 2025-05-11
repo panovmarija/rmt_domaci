@@ -87,6 +87,7 @@ public class Kontroler {
         int godina=Integer.parseInt(s.getJmbg().substring(4, 7));
         if(godina>=900)godina+=1000;
         else godina+=2000;
+
         Date dicist=null;
         Date ducist=null;
         Date drodj=null;
