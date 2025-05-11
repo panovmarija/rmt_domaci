@@ -7,7 +7,9 @@ package kontroler;
 import baza.DBB;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -85,23 +87,23 @@ public class Kontroler {
         int godina=Integer.parseInt(s.getJmbg().substring(4, 7));
         if(godina>=900)godina+=1000;
         else godina+=2000;
-        Date danas=null;
         Date dicist=null;
         Date ducist=null;
         Date drodj=null;
         try {
-            danas=sdf.parse(sdf.format(new Date()));
-            ducist=sdf.parse(sdf.format(p.getDu()));
+             ducist=sdf.parse(sdf.format(p.getDu()));
             dicist=sdf.parse(sdf.format(p.getDi()));
             drodj=sdf.parse(dan+"."+mesec+"."+godina+".");
         } catch (ParseException ex) {
             Logger.getLogger(Kontroler.class.getName()).log(Level.SEVERE, null, ex);
         }
         int brdana=(int) ((dicist.getTime()-ducist.getTime())/1000/60/60/24);
-        int brgod= (int) ((danas.getTime()-drodj.getTime())/1000/60/60/24/365);
-        System.out.println(brgod);
-        String str="Ime: "+s.getIme()+"\nPrezime: "+s.getPrezime()+"\nJMBG: "+s.getJmbg()+"\nBroj pasosa: "+s.getBp()+"\nZemlja/Zemlje odredista: "+String.join(",", zemlje)
-                +"\nDatum prijave: "+sdf.format(danas)+"\nDatum ulaska u EU: "+sdf.format(p.getDu())+"\nPredvidjen broj dana u EU: "+brdana+"\nPlaca prijavu: "+(brgod>=18 && brgod<=70?"Da":"Ne");
+
+        LocalDate dns=LocalDate.now();
+        LocalDate rodj=LocalDate.of(godina, mesec, dan);
+        int brgod=Period.between(rodj, dns).getYears();
+         String str="Ime: "+s.getIme()+"\nPrezime: "+s.getPrezime()+"\nJMBG: "+s.getJmbg()+"\nBroj pasosa: "+s.getBp()+"\nZemlja/Zemlje odredista: "+String.join(",", zemlje)
+                +"\nDatum prijave: "+sdf.format(new Date())+"\nDatum ulaska u EU: "+sdf.format(p.getDu())+"\nPredvidjen broj dana u EU: "+brdana+"\nPlaca prijavu: "+(brgod>=18 && brgod<=70?"Da":"Ne");
        return str;
     }
     
