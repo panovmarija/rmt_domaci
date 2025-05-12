@@ -26,15 +26,15 @@ CREATE TABLE `korisnik` (
   `Mail` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Lozinka` varchar(50) NOT NULL,
   PRIMARY KEY (`KorisnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `korisnik` */
 
 insert  into `korisnik`(`KorisnikID`,`KorisnickoIme`,`Mail`,`Lozinka`) values 
-(1,'a','a','a'),
-(2,'b','b','b'),
-(3,'c','c','c'),
-(4,'w','w@gmail.com','w');
+(1,'a','a@gmail.com','a'),
+(2,'b','b@gmail.com','b'),
+(3,'c','c@gmail.com','c'),
+(4,'d','d@gmail.com','d');
 
 /*Table structure for table `prijava` */
 
@@ -49,17 +49,13 @@ CREATE TABLE `prijava` (
   PRIMARY KEY (`PrijavaID`),
   KEY `KorisnikID` (`StanovnikID`),
   CONSTRAINT `prijava_ibfk_1` FOREIGN KEY (`StanovnikID`) REFERENCES `stanovnik` (`StanovnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `prijava` */
 
 insert  into `prijava`(`PrijavaID`,`DatumUlaska`,`DatumIzlaska`,`NacinPutovanja`,`StanovnikID`) values 
-(1,'2001-01-20','2001-02-20','avion',1),
-(2,'2025-05-10','2025-05-20','motocikl',5),
-(4,'2025-05-10','2025-05-20','Avio prevoz',5),
-(8,'2025-12-21','2025-12-12','Putnicki automobil',5),
-(9,'2025-12-12','2025-12-12','Putnicki automobil',1),
-(25,'2027-01-01','2027-02-01','Putnicki automobil',5);
+(1,'2001-01-20','2001-02-20','Motocikl',1),
+(9,'2025-12-12','2025-12-12','Putnicki automobil',1);
 
 /*Table structure for table `stanovnik` */
 
@@ -75,16 +71,18 @@ CREATE TABLE `stanovnik` (
   PRIMARY KEY (`StanovnikID`),
   KEY `KorisnikID` (`KorisnikID`),
   CONSTRAINT `stanovnik_ibfk_1` FOREIGN KEY (`KorisnikID`) REFERENCES `korisnik` (`KorisnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `stanovnik` */
 
 insert  into `stanovnik`(`StanovnikID`,`Ime`,`Prezime`,`JMBG`,`BrojPasosa`,`KorisnikID`) values 
-(1,'a','a','0101925111111','111111111',1),
-(2,'b','b','0101002111111','222222222',2),
-(3,'c','c','0101003111111','333333333',3),
-(4,'w','w','0101004111111','444444444',4),
-(5,'x','x','0101005111111','555555555',NULL);
+(1,'Ana','Anic','0101925111111','111111111',1),
+(2,'Boba','Bobanic','0101002111111','222222222',2),
+(3,'Ceca','Cecilic','0101003111111','333333333',3),
+(4,'Deni','Devito','0101004111111','444444444',4),
+(5,'Neprijavljen1','Neprijavljen1','0101005111111','555555555',NULL),
+(6,'Neprijavljen2','Neprijavljen2','0101006111111','666666666',NULL),
+(7,'Neprijavljen3','Neprijavljen3','0101007111111','777777777',NULL);
 
 /*Table structure for table `stavkaprijave` */
 
@@ -103,19 +101,10 @@ CREATE TABLE `stavkaprijave` (
 
 insert  into `stavkaprijave`(`prijavaid`,`zemljaid`) values 
 (1,1),
-(4,1),
-(8,1),
 (9,1),
-(25,1),
 (1,2),
-(8,2),
 (1,3),
-(4,3),
-(8,3),
-(1,4),
-(4,4),
-(2,5),
-(2,6);
+(1,4);
 
 /*Table structure for table `zemlja` */
 

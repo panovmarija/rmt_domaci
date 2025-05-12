@@ -4,6 +4,10 @@
  */
 package forme;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +85,7 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
 
         jLabel2.setText("Prezime:");
 
-        jLabel3.setText("JMBG:");
+        jLabel3.setText("JMBG :");
 
         jLabel4.setText("Datum ulaska(dd.MM.yyyy.):");
 
@@ -90,6 +94,10 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
         jLabel6.setText("Broj pasosa:");
 
         jLabel7.setText("Nacin putovanja:");
+
+        jTextField1.setToolTipText("Neobavezno polje");
+
+        jTextField2.setToolTipText("Neobavezno polje");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Putnicki automobil", "Motocikl", "Autobus", "Avio prevoz" }));
 
@@ -164,17 +172,17 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField_jmbg, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(jTextField_jmbg, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                             .addComponent(jTextField1)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(jTextField_bp, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(jTextField_du, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .addComponent(jTextField_di, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                            .addComponent(jTextField_bp, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                            .addComponent(jTextField_du, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                            .addComponent(jTextField_di, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -242,7 +250,7 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(postojepraznapolja())
         {
-            JOptionPane.showMessageDialog(this, "Sva polja su obavezna!");return ;
+            JOptionPane.showMessageDialog(this, "Uneti sva obavezna polja!");return ;
         }
         String v=formatpolja();
         if(!v.equals("ok"))
@@ -252,7 +260,7 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
         v=validacijaJedinstvenih();
         if(!v.equals("ok"))
         {
-            JOptionPane.showMessageDialog(this, "\nVec postoji profil sa datim podacima\nUlogujte se!");return ;
+            JOptionPane.showMessageDialog(this, v);return ;
         }        
         if(mz.getL().isEmpty())
         {
@@ -265,23 +273,37 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
             du=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_du.getText());
             di=new SimpleDateFormat("dd.MM.yyyy.").parse(jTextField_di.getText());
         } catch (Exception e) {}
-
+        
         Prijava p=new Prijava(-1, new Stanovnik(-1, jTextField1.getText(),jTextField2.getText(), jTextField_jmbg.getText(), jTextField_bp.getText(), null), du, di, (String) jComboBox1.getSelectedItem());
+        
         List<Stavka>l=new ArrayList<>();
         for(Zemlja z:mz.getL())
         {
             l.add(new Stavka(p, z));
         }
+        
         komunikacija.Komunikacija.getInstance().posalji(new KlijentZahtev(operacije.Operacije.proveraPutovanja, l));
         if(!(boolean)komunikacija.Komunikacija.getInstance().procitaj().getOdg())
         {
             JOptionPane.showMessageDialog(this, "Vec imate prijavljeno putovanje u tom periodu za neku od zemalja");return ;
         }
+        
         komunikacija.Komunikacija.getInstance().posalji(new KlijentZahtev(operacije.Operacije.sacuvaj_prijavu, l));
         if((boolean)komunikacija.Komunikacija.getInstance().procitaj().getOdg())
         {
-           System.out.println((String)komunikacija.Komunikacija.getInstance().procitaj().getOdg());
-           JOptionPane.showMessageDialog(this, "Uspesno sacuvana prijava");return ;
+           String fajlTxt=(String)komunikacija.Komunikacija.getInstance().procitaj().getOdg();
+           String fajlNaz="prijava_"+new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date())+".txt";
+           String fajlPut=System.getProperty("user.dir")+"\\"+fajlNaz;
+           try (PrintWriter pw=new PrintWriter(fajlPut)){
+                pw.write(fajlTxt);
+             } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Greska pri cuvanju fajla sa detaljima prijave\n"+fajlTxt);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Prijava sacuvana na lokaciji: "+fajlPut+"\n"+fajlTxt, "Uspesno sacuvan fajl", JOptionPane.INFORMATION_MESSAGE);
+           return ;
          }
         JOptionPane.showMessageDialog(this, "Neuspesno sacuvana prijava");
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -299,7 +321,7 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
         mz.fireTableDataChanged();
     }//GEN-LAST:event_jButton2ActionPerformed
     private boolean postojepraznapolja() {
-        if(jTextField1.getText().isBlank() || jTextField2.getText().isBlank()|| jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank()  || jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank())
+        if( jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank()  || jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank())
             return true;
         return false;
     }

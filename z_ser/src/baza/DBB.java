@@ -43,6 +43,7 @@ public class DBB {
             rs = ps.executeQuery();
             if (rs.next()) {
                 String r = rs.getString("r");
+                System.out.println(rs.getInt("s.stanovnikid"));
                 if (r.equals("registrovan")) {
                     return "Vec postoji nalog.\n Ulogujte se!";
                 }
@@ -260,5 +261,24 @@ public class DBB {
             return false;
         }
         return true;
+    }
+
+    public String[] vratiIP(Stanovnik stanovnik) {
+        String[]  l = new String[2];
+        try {
+            String u = "select * from stanovnik where jmbg=? and brojpasosa=?";
+            PreparedStatement ps = Konekcija.getInstance().getConn().prepareStatement(u);
+            ps.setString(1, stanovnik.getJmbg());
+            ps.setString(2, stanovnik.getBp());
+            ResultSet rs = ps.executeQuery();
+            int i=0;
+            while (rs.next()) {
+                l[0]=rs.getString("ime");
+                l[1]=rs.getString("prezime");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return l;
     }
 }

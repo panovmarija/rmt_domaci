@@ -168,8 +168,14 @@
     <Component class="javax.swing.JTextField" name="jTextField_user">
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField3">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Neobavezno polje"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField4">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Neobavezno polje"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_mail">
     </Component>

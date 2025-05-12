@@ -76,6 +76,9 @@ public class Kontroler {
     public String napravi_string(List<Stavka> list) {
         Prijava p=list.get(0).getP();
         Stanovnik s=p.getS();
+        String [] ip=dbb.vratiIP(s);
+        s.setIme(ip[0]);
+        s.setPrezime(ip[1]);
         SimpleDateFormat sdf=new SimpleDateFormat("dd.MM.yyyy.");
         List<String>zemlje=new ArrayList<>();
         for(Stavka stavka:list)

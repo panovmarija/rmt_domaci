@@ -55,9 +55,9 @@ public class Obrada extends Thread{
                     posalji(so);
                     break;
                 case operacije.Operacije.sacuvaj_prijavu:
-                    sadrzaj_za_txt_fajl=kontroler.Kontroler.getInstance().napravi_string((List<Stavka>)kz.getPar());
                     so.setOdg(kontroler.Kontroler.getInstance().sacuvaj_prijavu((List<Stavka>)kz.getPar()));
                     posalji(so);
+                    sadrzaj_za_txt_fajl=kontroler.Kontroler.getInstance().napravi_string((List<Stavka>)kz.getPar());
                     so.setOdg(sadrzaj_za_txt_fajl);
                     posalji(so);
                     break;

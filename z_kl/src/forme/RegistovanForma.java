@@ -6,6 +6,12 @@
 // */
 package forme;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -312,10 +318,23 @@ public class RegistovanForma extends javax.swing.JFrame {
         komunikacija.Komunikacija.getInstance().posalji(new KlijentZahtev(operacije.Operacije.sacuvaj_prijavu, l));
         if((boolean)komunikacija.Komunikacija.getInstance().procitaj().getOdg())
         {
-           System.out.println((String)komunikacija.Komunikacija.getInstance().procitaj().getOdg());
            JOptionPane.showMessageDialog(this, "Uspesno sacuvana prijava");
            mp.getL().add(new WrapPrijava(p, String.join(",", zemlje)));
            mp.fireTableDataChanged();
+
+           String fajlTxt=(String)komunikacija.Komunikacija.getInstance().procitaj().getOdg();
+           String fajlNaz="prijava_"+new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date())+".txt";
+           String fajlPut=System.getProperty("user.dir")+"\\"+fajlNaz;
+ 
+           try (PrintWriter pw=new PrintWriter(fajlPut)){
+                pw.write(fajlTxt);
+             } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Greska pri cuvanju fajla sa detaljima prijave\n"+fajlTxt);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Prijava sacuvana na lokaciji: "+fajlPut+"\n"+fajlTxt, "Uspesno sacuvan fajl", JOptionPane.INFORMATION_MESSAGE);
            return ;
         }
         JOptionPane.showMessageDialog(this, "Neuspesno sacuvana prijava");
@@ -330,7 +349,7 @@ public class RegistovanForma extends javax.swing.JFrame {
             i.setVisible(true);
             i.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
-        else JOptionPane.showMessageDialog(this, "Moguce je izmeniti samo prijave u obradi!");
+        else JOptionPane.showMessageDialog(this, "Nije moguce izmeniti prijavu!");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public ModelPrijava getMp() {

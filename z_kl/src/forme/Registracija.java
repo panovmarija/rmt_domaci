@@ -75,6 +75,10 @@ public class Registracija extends javax.swing.JFrame {
             }
         });
 
+        jTextField3.setToolTipText("Neobavezno polje");
+
+        jTextField4.setToolTipText("Neobavezno polje");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,7 +164,7 @@ public class Registracija extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(postojepraznapolja())
         {
-            JOptionPane.showMessageDialog(this, "Sva polja su obavezna!");return ;
+            JOptionPane.showMessageDialog(this, "Uneti sva obavezna polja!");return ;
         }
         String v=formatpolja();
         if(!v.equals("ok"))
@@ -203,7 +207,7 @@ public class Registracija extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private boolean postojepraznapolja() {
-        if(jTextField_user.getText().isBlank() || (String.valueOf(jPasswordField1.getPassword())).isBlank()|| jTextField3.getText().isBlank() || jTextField4.getText().isBlank() || jTextField_mail.getText().isBlank() || jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank())
+        if(jTextField_user.getText().isBlank() || (String.valueOf(jPasswordField1.getPassword())).isBlank()|| jTextField_mail.getText().isBlank() || jTextField_jmbg.getText().isBlank() || jTextField_bp.getText().isBlank())
             return true;
         return false;
     }
