@@ -171,9 +171,10 @@ public class DBB {
         }
         return l;
     }
-    public boolean sacuvaj_prijavu(List<Stavka> list) {
+    public int sacuvaj_prijavu(List<Stavka> list) {
         Prijava p = list.get(0).getP();
         int sid=1;
+        int pid=0;
         String u;
         PreparedStatement ps;
         try {
@@ -197,8 +198,7 @@ public class DBB {
             ps.setString(3, p.getNp());
             ps.setInt(4, p.getS().getId()==-1?sid:p.getS().getId());
             int afr = ps.executeUpdate();
-            if (afr == 0) return false;
-            int pid = 1;
+            if (afr == 0) return 0;
             ResultSet rsid = ps.getGeneratedKeys();
             if (rsid.next()) {
                 pid = rsid.getInt(1);
@@ -219,9 +219,9 @@ public class DBB {
                 Logger.getLogger(DBB.class.getName()).log(Level.SEVERE, null, ex1);
             }
             Logger.getLogger(DBB.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return 0;
         }
-        return true;
+        return pid;
 
     }
     public boolean izmeni_prijavu(List<Stavka> list) {

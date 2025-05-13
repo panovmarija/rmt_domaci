@@ -61,7 +61,7 @@ public class Kontroler {
         return dbb.proveraPutovanja(list);
     }
 
-    public boolean sacuvaj_prijavu(List<Stavka> list) {
+    public int sacuvaj_prijavu(List<Stavka> list) {
         return dbb.sacuvaj_prijavu(list);
     }
 

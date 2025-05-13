@@ -19,5 +19,4 @@ public class Operacije  {
   public static final int sacuvaj_prijavu=5;  
   public static final int vrati_prijave=6;  
   public static final int izmeni_prijavu=7;  
-  public static final int a=8;  
 }

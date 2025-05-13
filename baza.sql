@@ -26,7 +26,7 @@ CREATE TABLE `korisnik` (
   `Mail` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `Lozinka` varchar(50) NOT NULL,
   PRIMARY KEY (`KorisnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `korisnik` */
 
@@ -49,13 +49,13 @@ CREATE TABLE `prijava` (
   PRIMARY KEY (`PrijavaID`),
   KEY `KorisnikID` (`StanovnikID`),
   CONSTRAINT `prijava_ibfk_1` FOREIGN KEY (`StanovnikID`) REFERENCES `stanovnik` (`StanovnikID`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `prijava` */
 
 insert  into `prijava`(`PrijavaID`,`DatumUlaska`,`DatumIzlaska`,`NacinPutovanja`,`StanovnikID`) values 
 (1,'2001-01-20','2001-02-20','Motocikl',1),
-(9,'2025-12-12','2025-12-12','Putnicki automobil',1);
+(9,'2025-12-11','2025-12-11','Autobus',1);
 
 /*Table structure for table `stanovnik` */
 

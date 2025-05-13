@@ -316,9 +316,11 @@ public class RegistovanForma extends javax.swing.JFrame {
         }
         
         komunikacija.Komunikacija.getInstance().posalji(new KlijentZahtev(operacije.Operacije.sacuvaj_prijavu, l));
-        if((boolean)komunikacija.Komunikacija.getInstance().procitaj().getOdg())
+        int id=(int)komunikacija.Komunikacija.getInstance().procitaj().getOdg();
+        if(id!=0)
         {
            JOptionPane.showMessageDialog(this, "Uspesno sacuvana prijava");
+           p.setId(id);
            mp.getL().add(new WrapPrijava(p, String.join(",", zemlje)));
            mp.fireTableDataChanged();
 

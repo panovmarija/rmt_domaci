@@ -51,16 +51,12 @@ public class ModelPrijava extends AbstractTableModel{
                 Date dnscist=null;
                 Date ducist=null;
                 Date dicist=null;
-                try {
-                    dnscist=sdf.parse(sdf.format(new Date()));
-                    ducist=sdf.parse(sdf.format(z.getP().getDu()));
-                    dicist=sdf.parse(sdf.format(z.getP().getDi()));
-                } catch (ParseException ex) {
-                    Logger.getLogger(ModelPrijava.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                dnscist=new Date();
+                ducist=z.getP().getDu();
+                dicist=z.getP().getDi();
                 if(dicist.before(dnscist))return "ZAVRSENA";
-                int brs= (int) (ducist.getTime()-dnscist.getTime())/1000/60/60;
-                if(brs<48 && brs>=0)return "ZAKLJUCANA";
+                long brs=(ducist.getTime()-dnscist.getTime())/3600000;
+                if(brs<48)return "ZAKLJUCANA";
                 return "U OBRADI";
 
             default:

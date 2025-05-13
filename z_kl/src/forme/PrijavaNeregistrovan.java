@@ -289,7 +289,7 @@ public class PrijavaNeregistrovan extends javax.swing.JFrame {
         }
         
         komunikacija.Komunikacija.getInstance().posalji(new KlijentZahtev(operacije.Operacije.sacuvaj_prijavu, l));
-        if((boolean)komunikacija.Komunikacija.getInstance().procitaj().getOdg())
+        if((int)komunikacija.Komunikacija.getInstance().procitaj().getOdg()!=0)
         {
            String fajlTxt=(String)komunikacija.Komunikacija.getInstance().procitaj().getOdg();
            String fajlNaz="prijava_"+new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(new Date())+".txt";
